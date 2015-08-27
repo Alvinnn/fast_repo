@@ -1,7 +1,7 @@
 #include <iostream>
 #include "fast_cuda.h"
 #include <opencv2/opencv.hpp>
-#include "corner.h"
+//#include "corner.h"
 
 __device__
 int position(int m,int n,int width)
@@ -60,8 +60,8 @@ void fast(uchar* image, int width, int height,Corner* d_corner,int gridsize_x, i
 		if(sp4!=0)
 		{
 			int value=abs(center_value-patch[x-1][y-1])+abs(center_value-patch[x][y-1])+abs(center_value-patch[x+1][y-1])+
-					abs(center_value-patch[x-1][y])+abs(center_value-patch[x+1][y])+abs(center_value-patch[x+1][y-1])+
-					abs(center_value-patch[x+1][y])+abs(center_value-patch[x+1][y+1]);
+					abs(center_value-patch[x-1][y])+abs(center_value-patch[x+1][y])+abs(center_value-patch[x-1][y+1])+
+					abs(center_value-patch[x][y+1])+abs(center_value-patch[x+1][y+1]);
 			d_corner[idx].value=value;
 			d_corner[idx].set=1;
 		}
@@ -91,8 +91,8 @@ void fast(uchar* image, int width, int height,Corner* d_corner,int gridsize_x, i
 			if(sn4!=0)
 			{
 				int value=abs(center_value-patch[x-1][y-1])+abs(center_value-patch[x][y-1])+abs(center_value-patch[x+1][y-1])+
-						abs(center_value-patch[x-1][y])+abs(center_value-patch[x+1][y])+abs(center_value-patch[x+1][y-1])+
-						abs(center_value-patch[x+1][y])+abs(center_value-patch[x+1][y+1]);
+						abs(center_value-patch[x-1][y])+abs(center_value-patch[x+1][y])+abs(center_value-patch[x-1][y+1])+
+						abs(center_value-patch[x][y+1])+abs(center_value-patch[x+1][y+1]);
 				d_corner[idx].value=value;
 				d_corner[idx].set=1;
 			}
@@ -128,4 +128,5 @@ void nms(uchar* image, Corner* d_corner,int width, int height)
 
 	}
 }
+
 
